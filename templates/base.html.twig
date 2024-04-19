@@ -11,7 +11,14 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
+    <header>
+        <nav>
+            <img src="{{ asset('img/LogoProjetSortir.png') }}">
+        </nav>
+    </header>
     <body>
-        {% block body %}{% endblock %}
+
+        {% block body %}
+        {% endblock %}
     </body>
 </html>

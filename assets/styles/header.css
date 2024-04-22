@@ -1,0 +1,11 @@
+html{
+    margin: 0px;
+}
+body{
+    margin: auto;
+    background: var(--bg);
+}
+
+.logoBandeau{
+    justify-content: center !important;
+}

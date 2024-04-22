@@ -25,4 +25,8 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'boutton' => [
+        'path' => './assets/composants/boutton.js',
+        'entrypoint' => true,
+    ]
 ];

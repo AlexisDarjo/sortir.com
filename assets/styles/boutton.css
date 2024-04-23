@@ -59,7 +59,7 @@ button:after {
     --y:0;
     --xp:0;
     --yp:0;
-    --hue: calc(1000 + (var(--xp)* 100));
+    --hue: calc(1000 + (var(--xp)* 150));
     --bg: hsl(0 0% 10%);
     --size: 100px;
     --glow: radial-gradient(

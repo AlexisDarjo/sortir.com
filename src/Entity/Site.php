@@ -15,9 +15,6 @@ class Site
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idSite = null;
-
     #[ORM\Column(length: 30)]
     private ?string $nom = null;
 
@@ -35,18 +32,6 @@ class Site
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdSite(): ?int
-    {
-        return $this->idSite;
-    }
-
-    public function setIdSite(int $idSite): static
-    {
-        $this->idSite = $idSite;
-
-        return $this;
     }
 
     public function getNom(): ?string
@@ -69,22 +54,22 @@ class Site
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): static
+    public function addSortie(Sortie $sortie): static
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties->add($sorty);
-            $sorty->setSiteOrganisateur($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties->add($sortie);
+            $sortie->setSiteOrganisateur($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): static
+    public function removeSortie(Sortie $sortie): static
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getSiteOrganisateur() === $this) {
-                $sorty->setSiteOrganisateur(null);
+            if ($sortie->getSiteOrganisateur() === $this) {
+                $sortie->setSiteOrganisateur(null);
             }
         }
 

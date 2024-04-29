@@ -19,10 +19,8 @@ class Inscription
     #[ORM\JoinColumn(nullable: false)]
     private ?Sortie $idSortie = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     public function getDate(): ?\DateTimeInterface
     {

@@ -6,9 +6,14 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-class Participant
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['mail'])]
+#[UniqueEntity(fields: ['mail'], message: 'There is already an account with this email')]
+class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,6 +43,12 @@ class Participant
 
     #[ORM\Column]
     private ?bool $actif = null;
+
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
      * @var Collection<int, Inscription>
@@ -103,17 +114,6 @@ class Participant
         return $this;
     }
 
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): static
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
 
     public function getMotDePasse(): ?string
     {
@@ -179,5 +179,63 @@ class Participant
         }
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->mail;
+    }
+
+    /**
+     * @see UserInterface
+     *
+     * @return list<string>
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->motDePasse;
+    }
+
+    public function setPassword(string $motDePasse): static
+    {
+        $this->motDePasse = $motDePasse;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

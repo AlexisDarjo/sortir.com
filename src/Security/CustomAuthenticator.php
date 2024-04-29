@@ -28,13 +28,13 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->getPayload()->getString('email');
+        $email = $request->getPayload()->getString('mail');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->getPayload()->getString('password')),
+            new PasswordCredentials($request->getPayload()->getString('motDePasse')),
             [
                 new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
                 new RememberMeBadge(),
@@ -50,7 +50,7 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
 
         // For example:
         // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('app_main'));
     }
 
     protected function getLoginUrl(Request $request): string

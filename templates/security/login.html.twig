@@ -14,20 +14,20 @@
 {% block body %}
 
 <section class="hero is-fullheight">
-    <div class="hero-body">
+    <div class="mt-6 mb-1">
         <div class="container">
-            <div class="columns is-centered">
+            <div class="columns is-centered is-flex is-justify-content-center">
                 <div class="column is-5-tablet is-4-desktop is-6-widescreen">
 
                     <form method="post"  class="box custom-form">
-                        <h1 class="title is-3 mb-3 font-weight has-text-white">Se connecter</h1>
+                        <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">Se connecter</h1>
 
 
 
                         <div class="field">
                             <label class="label has-text-white" for="inputEmail">Email</label>
                                  <div class="control has-icons-left">
-                                    <input type="email" placeholder="bobsmith@gmail.com" class="input has-background-grey-darker has-text-white" value="{{ last_username }}" name="mail" id="inputEmail" autocomplete="email" required autofocus>
+                                     <input type="email" placeholder="bobsmith@gmail.com" class="input custom-input" value="{{ last_username }}" name="mail" id="inputEmail" autocomplete="email" required autofocus>
                                          <span class="icon is-small is-left">
                                              <i class="fa fa-envelope"></i>
                                          </span>
@@ -37,7 +37,7 @@
                         <div class="field">
                             <label  class="label has-text-white" for="inputPassword">Mot de passe</label>
                             <div class="control has-icons-left">
-                            <input placeholder="*******" class="input custom-border-color has-background-grey-darker has-text-white" type="password" name="motDePasse" id="inputPassword" autocomplete="current-password" required>
+                                <input placeholder="*******" class="input custom-input" type="password" name="motDePasse" id="inputPassword" autocomplete="current-password" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-lock"></i>
                                 </span>
@@ -54,10 +54,10 @@
                         </div>
 
                         {% if error %}
-                            <div class="has-text-danger mb-3">{{ error }}</div>
+                            <div class="custom-error mb-3">{{ error }}</div>
                         {% endif %}
 
-                        <div class="field">
+                        <div class="field is-flex is-justify-content-center">
 
                             <button class="" type="submit">
                                 <span>Connexion</span>

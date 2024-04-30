@@ -4,7 +4,16 @@
     border-radius: 10px;
     background-color: #a78bfa;
 
-    ;
+}
 
+.custom-input{
+    box-shadow: 1px 1px 1px 1px #5B21B6;
+    border-color: #5B21B6;
+    border-radius: 10px;
+    background-color: #a78bfa;
+}
+
+.custom-error{
+    color: #ffaaaa;
 }
 

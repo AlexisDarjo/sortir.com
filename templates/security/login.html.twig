@@ -1,37 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/styles/boutton.css">
+    <link rel="stylesheet" href="/assets/styles/login.css">
+{% endblock %}
+
+{% block javascripts %}
+    {% block importmap %}{{ importmap('boutton') }}{{ importmap('app') }}{% endblock %}
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+
+                    <form method="post"  class="box custom-form">
+                        <h1 class="title is-3 mb-3 font-weight has-text-white">Se connecter</h1>
+
+
+
+                        <div class="field">
+                            <label class="label has-text-white" for="inputEmail">Email</label>
+                                 <div class="control has-icons-left">
+                                    <input type="email" placeholder="bobsmith@gmail.com" class="input has-background-grey-darker has-text-white" value="{{ last_username }}" name="mail" id="inputEmail" autocomplete="email" required autofocus>
+                                         <span class="icon is-small is-left">
+                                             <i class="fa fa-envelope"></i>
+                                         </span>
+                                 </div>
+                        </div>
+
+                        <div class="field">
+                            <label  class="label has-text-white" for="inputPassword">Mot de passe</label>
+                            <div class="control has-icons-left">
+                            <input placeholder="*******" class="input custom-border-color has-background-grey-darker has-text-white" type="password" name="motDePasse" id="inputPassword" autocomplete="current-password" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+
+                        <div class="field">
+                            <label class="checkbox has-text-white">
+                                <input class="" type="checkbox" name="_remember_me"> Se souvenir de moi
+                            </label>
+                        </div>
+
+                        {% if error %}
+                            <div class="has-text-danger mb-3">{{ error }}</div>
+                        {% endif %}
+
+                        <div class="field">
+
+                            <button class="" type="submit">
+                                <span>Connexion</span>
+                            </button>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="mail" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="motDePasse" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
     </div>
+</section>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+
 {% endblock %}

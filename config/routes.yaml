@@ -17,3 +17,8 @@ app_sortie_new:
     path: '/sortie/new'
     controller: 'App\Controller\SortieController::new'
     methods: ['GET', 'POST']
+
+app_login:
+    path: '/login'
+    controller: 'App\Controller\SecurityController::login'
+    methods: [ 'GET', 'POST' ]

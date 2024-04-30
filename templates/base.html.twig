@@ -13,10 +13,27 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <header>
-        <div class="is-flex is-justify-content-center">
+    <header class="is-flex is-justify-content-space-evenly is-align-items-center">
+        <div>
             <img src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
         </div>
+        <nav class="">
+            <button>
+                <span>Villes</span>
+            </button>
+            <button>
+                <span>Sites</span>
+            </button>
+            <button>
+                <span>Accueil</span>
+            </button>
+            <button>
+                <span>Mon profil</span>
+            </button>
+            <button>
+                <span>Se déconnecter</span>
+            </button>
+        </nav>
     </header>
     <body>
         {% block body %}{% endblock %}

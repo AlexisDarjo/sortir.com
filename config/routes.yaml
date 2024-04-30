@@ -1,5 +1,19 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+app_sortie_index:
+    path: /
+    controller: 'App\Controller\SortieController::index'
+    methods: ['GET']
+
+app_sortie_show:
+    path: '/sortie/{id}'
+    controller: 'App\Controller\SortieController::show'
+    methods: ['GET']
+
+app_sortie_edit:
+    path: '/sortie/{id}/edit'
+    controller: 'App\Controller\SortieController::edit'
+    methods: ['GET', 'POST']
+
+app_sortie_new:
+    path: '/sortie/new'
+    controller: 'App\Controller\SortieController::new'
+    methods: ['GET', 'POST']

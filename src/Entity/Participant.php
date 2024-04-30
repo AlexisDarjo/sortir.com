@@ -115,17 +115,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
 
-    public function setMotDePasse(string $motDePasse): static
-    {
-        $this->motDePasse = $motDePasse;
-
-        return $this;
-    }
 
     public function isAdministrateur(): ?bool
     {

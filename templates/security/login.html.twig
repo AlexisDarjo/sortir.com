@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% block importmap %}{{ importmap('boutton') }}{% endblock %}
+    {% block importmap %}{{ importmap('boutton') }}{{ importmap('app') }}{% endblock %}
 {% endblock %}
 
 {% block body %}
@@ -19,15 +19,13 @@
             <div class="columns is-centered">
                 <div class="column is-5-tablet is-4-desktop is-6-widescreen">
 
-                    <form method="post"  class="box has-background-grey-darker">
+                    <form method="post"  class="box custom-form">
                         <h1 class="title is-3 mb-3 font-weight has-text-white">Se connecter</h1>
 
-                        {% if error %}
-                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
+
 
                         <div class="field">
-                            <label class="label has-background-grey-darker has-text-white" for="inputEmail">Email</label>
+                            <label class="label has-text-white" for="inputEmail">Email</label>
                                  <div class="control has-icons-left">
                                     <input type="email" placeholder="bobsmith@gmail.com" class="input has-background-grey-darker has-text-white" value="{{ last_username }}" name="mail" id="inputEmail" autocomplete="email" required autofocus>
                                          <span class="icon is-small is-left">
@@ -50,10 +48,14 @@
                                value="{{ csrf_token('authenticate') }}">
 
                         <div class="field">
-                            <label class="checkbox">
-                                <input class="has-text-white" type="checkbox" name="_remember_me"> Se souvenir de moi
+                            <label class="checkbox has-text-white">
+                                <input class="" type="checkbox" name="_remember_me"> Se souvenir de moi
                             </label>
                         </div>
+
+                        {% if error %}
+                            <div class="has-text-danger mb-3">{{ error }}</div>
+                        {% endif %}
 
                         <div class="field">
 
@@ -70,4 +72,6 @@
         </div>
     </div>
 </section>
+
+
 {% endblock %}

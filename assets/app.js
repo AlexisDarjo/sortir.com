@@ -8,6 +8,7 @@ import 'bulma/css/bulma.css';
  */
 import './styles/app.css';
 import './styles/header.css';
+import './styles/login.css';
 
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

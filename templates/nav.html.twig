@@ -1,0 +1,26 @@
+<nav class="">
+    {% if is_granted('ROLE_ADMIN') %}
+        <button>
+            <span>Villes</span>
+        </button>
+        <button>
+            <span>Sites</span>
+        </button>
+    {% endif %}
+    <button>
+        <a class="nav-link fw-bold" href="{{ path('app_sortie_index') }}">
+        <span>Accueil</span>
+        </a>
+    </button>
+    {% if app.user is not empty %}
+        <button onclick="window.location='{{ path('app_participant_index') }}'">
+            <span>Mon profil</span>
+        </button>
+        <button onclick="window.location='{{ path('app_logout') }}'">
+            <span>Se déconnecter</span>
+        </button>
+        <div>
+            Vous êtes connecté en tant que {{ app.user.mail }}
+        </div>
+    {% endif %}
+</nav>

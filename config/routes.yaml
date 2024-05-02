@@ -27,3 +27,28 @@ app_logout:
     path: '/logout'
     controller: 'App\Controller\SecurityController::logout'
     methods: [ 'GET', 'POST' ]
+
+app_participant_index:
+    path: '/participant'
+    controller: 'App\Controller\ParticipantController::index'
+    methods: ['GET']
+
+app_participant_show:
+    path : '/participant/{id}'
+    controller: 'App\Controller\ParticipantController::show'
+    methods: ['GET']
+
+app_participant_edit:
+    path : '/participant/{id}/edit'
+    controller: 'App\Controller\ParticipantController::edit'
+    methods: ['GET', 'POST']
+
+app_participant_new:
+    path : '/participant/new'
+    controller: 'App\Controller\ParticipantController::new'
+    methods: ['GET', 'POST']
+
+app_participant_delete:
+    path: '/participant/{id}'
+    controller: 'App\Controller\ParticipantController::delete'
+    methods: ['POST']

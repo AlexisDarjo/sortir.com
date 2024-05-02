@@ -7,13 +7,13 @@
             <span>Sites</span>
         </button>
     {% endif %}
-    <button>
-        <a class="nav-link fw-bold" href="{{ path('app_sortie_index') }}">
-        <span>Accueil</span>
-        </a>
-    </button>
+    <a class="nav-link fw-bold" href="{{ path('app_sortie_index') }}">
+        <button>
+    <span>Accueil</span>
+        </button>
+    </a>
     {% if app.user is not empty %}
-        <button onclick="window.location='{{ path('app_participant_index') }}'">
+        <button onclick="window.location='{{ path('app_participant_show', {'id': app.user.id}) }}'">
             <span>Mon profil</span>
         </button>
         <button onclick="window.location='{{ path('app_logout') }}'">

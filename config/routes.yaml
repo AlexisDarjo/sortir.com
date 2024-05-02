@@ -22,3 +22,8 @@ app_login:
     path: '/login'
     controller: 'App\Controller\SecurityController::login'
     methods: [ 'GET', 'POST' ]
+
+app_logout:
+    path: '/logout'
+    controller: 'App\Controller\SecurityController::logout'
+    methods: [ 'GET', 'POST' ]

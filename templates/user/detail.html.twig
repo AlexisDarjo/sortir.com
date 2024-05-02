@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/styles/boutton.css">
+    <link rel="stylesheet" href="/assets/styles/login.css">
+{% endblock %}
+
+{% block javascripts %}
+    {% block importmap %}{{ importmap('boutton') }}{{ importmap('app') }}{% endblock %}
+{% endblock %}
+
+{% block body %}
+    <h1>Mon profil</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ participant.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ participant.pseudo }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sortie_index') }}">back to list</a>
+
+    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+
+    {{ include('sortie/_delete_form.html.twig') }}
+{% endblock %}

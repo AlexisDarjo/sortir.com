@@ -1,5 +1,5 @@
 import './bootstrap.js';
-import 'bulma/css/bulma.css';
+
 /*
  * Welcome to your app's main JavaScript file!
  *

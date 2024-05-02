@@ -7,9 +7,22 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
 
     <div class="container">
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_row(form.siteOrganisateur, {'label': 'Site organisateur'}) }}
+            {{ form_row(form.dateHeureDebut, {'label': 'Entre'}) }}
+            {{ form_row(form.dateHeureFin, {'label': 'Et'}) }}
+            {{ form_row(form.nbInscriptionsMax, {'label': 'Nombre d\'inscriptions maximum'}) }}
+            {{ form_row(form.infosSortie, {'label': 'Informations sur la sortie'}) }}
+            {{ form_row(form.etat, {'label': 'État'}) }}
+            {{ form_row(form.lieu, {'label': 'Lieu'}) }}
+
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+        {{ form_end(form) }}
+
     <table class="table is-fullwidth custom-table">
         <thead>
             <tr>

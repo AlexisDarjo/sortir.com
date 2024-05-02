@@ -1,5 +1,8 @@
 import './bootstrap.js';
+<<<<<<< HEAD
 
+=======
+>>>>>>> bastien
 /*
  * Welcome to your app's main JavaScript file!
  *

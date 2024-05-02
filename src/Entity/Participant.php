@@ -56,6 +56,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'idParticipant', orphanRemoval: true)]
     private Collection $inscriptions;
 
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?Site $site = null;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -237,5 +240,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
+
+        return $this;
     }
 }

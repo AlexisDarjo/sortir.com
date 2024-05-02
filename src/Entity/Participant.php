@@ -220,6 +220,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): void
+    {
+        $this->mail = $mail;
+    }
+
     /**
      * @see UserInterface
      */

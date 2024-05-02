@@ -20,26 +20,7 @@
         <div>
             <img src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
         </div>
-        <nav class="">
-            {% if is_granted('ROLE_ADMIN') %}
-            <button>
-                <span>Villes</span>
-            </button>
-            <button>
-                <span>Sites</span>
-            </button>
-            {% endif %}
-
-            <button>
-                <span>Accueil</span>
-            </button>
-            <button>
-                <span>Mon profil</span>
-            </button>
-            <button>
-                <span>Se déconnecter</span>
-            </button>
-        </nav>
+        {% include 'nav.html.twig' %}
     </header>
     <body>
         {% block body %}{% endblock %}

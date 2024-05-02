@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\FilterFormType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,13 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
-    public function index(SortieRepository $sortieRepository): Response
+    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    public function index(Request $request,SortieRepository $sortieRepository): Response
     {
+        $form = $this->createForm(FilterFormType::class);
+        $form->handleRequest($request);
+
         $sorties=$sortieRepository->findAll();
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $formData = $form->getData();
+        }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -79,5 +88,20 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function tri(Request $request): Response
+    {
+        $form = $this->createForm(FilterFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Traitez les données filtrées ici
+        }
+
+        return $this->render('votre_template.html.twig', [
+            'form' => $form->createView(),
+            // Autres variables à passer à votre template Twig
+        ]);
     }
 }

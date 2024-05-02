@@ -2,3 +2,8 @@
     background-color: #a78bfa;
     border-radius: 10px;
 }
+
+.form-group {
+    border: #dbeafe solid 2px;
+    background-color: #a78bfa;
+}

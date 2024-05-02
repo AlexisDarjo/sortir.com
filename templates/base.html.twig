@@ -16,13 +16,13 @@
             {% endblock %}
         {% endblock %}
     </head>
+    <body class="">
     <header class="is-flex is-justify-content-space-evenly is-align-items-center">
         <div>
             <img src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
         </div>
         {% include 'nav.html.twig' %}
     </header>
-    <body>
         {% block body %}{% endblock %}
     </body>
 </html>

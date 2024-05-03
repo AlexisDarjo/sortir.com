@@ -10,11 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/participant')]
+#[IsGranted('ROLE_PARTICIPANT')]
 class ParticipantController extends AbstractController
 {
     #[Route('/', name: 'app_participant_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(ParticipantRepository $participantRepository): Response
     {
         return $this->render('participant/index.html.twig', [
@@ -23,6 +26,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/new', name: 'app_participant_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $participant = new Participant();
@@ -69,6 +73,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_participant_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$participant->getId(), $request->getPayload()->get('_token'))) {

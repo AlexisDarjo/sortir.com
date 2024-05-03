@@ -11,8 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
+#[IsGranted('ROLE_PARTICIPANT')]
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
@@ -34,6 +36,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
@@ -62,6 +65,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
@@ -80,6 +84,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->getPayload()->get('_token'))) {

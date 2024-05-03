@@ -33,6 +33,7 @@ button{
     touch-action: none;
     position: relative;
     padding: 1rem 2rem;
+    width: 200px;
 }
 button span{
     background: var(--glow), rosybrown;

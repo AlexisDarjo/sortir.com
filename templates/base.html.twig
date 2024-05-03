@@ -21,6 +21,11 @@
         <div>
             <img src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
         </div>
+        {% if app.user is not empty %}
+            <div>
+                Bonjour {{ app.user.prenom }}
+            </div>
+        {% endif %}
         {% include 'nav.html.twig' %}
     </header>
         {% block body %}{% endblock %}

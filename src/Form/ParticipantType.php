@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType; // Ajout de l'import
@@ -32,6 +34,20 @@ class ParticipantType extends AbstractType
             ->add('mail', EmailType::class, [
                 'attr' => ['class' => 'input is-rounded']
             ])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => ['class' => 'input is-rounded'],
+                    'hash_property_path' => 'password',
+                ],
+                'second_options' => [
+                    'label' => 'Repeat Password',
+                    'attr' => ['class' => 'input is-rounded'],
+                ],
+                'mapped' => false,
+            ])
+
             ->add('actif', CheckboxType::class, [
                 'attr' => ['class' => 'checkbox']
             ]);

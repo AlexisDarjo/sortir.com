@@ -7,6 +7,7 @@ use App\Form\FilterFormType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,6 +84,13 @@ class SortieController extends AbstractController
         ]);
     }
 
+
+
+
+
+
+
+
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ORGANISATEUR')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
@@ -92,21 +100,6 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    public function tri(Request $request): Response
-    {
-        $form = $this->createForm(FilterFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Traitez les données filtrées ici
-        }
-
-        return $this->render('votre_template.html.twig', [
-            'form' => $form->createView(),
-            // Autres variables à passer à votre template Twig
-        ]);
+        return $this->redirectToRoute('app_sortie_show', [], Response::HTTP_SEE_OTHER);
     }
 }

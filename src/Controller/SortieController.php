@@ -7,12 +7,15 @@ use App\Form\FilterFormType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
+#[IsGranted('ROLE_PARTICIPANT')]
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
@@ -34,6 +37,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
@@ -62,6 +66,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
@@ -79,7 +84,15 @@ class SortieController extends AbstractController
         ]);
     }
 
+
+
+
+
+
+
+
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ORGANISATEUR')]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->getPayload()->get('_token'))) {
@@ -87,21 +100,6 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    public function tri(Request $request): Response
-    {
-        $form = $this->createForm(FilterFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Traitez les données filtrées ici
-        }
-
-        return $this->render('votre_template.html.twig', [
-            'form' => $form->createView(),
-            // Autres variables à passer à votre template Twig
-        ]);
+        return $this->redirectToRoute('app_sortie_show', [], Response::HTTP_SEE_OTHER);
     }
 }

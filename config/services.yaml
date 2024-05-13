@@ -17,9 +17,14 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            # - '../src/Entity/'  # Ne pas exclure le répertoire Entity
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    # Ajoutez une configuration explicite pour vos entités
+    App\Entity\:
+        resource: '../src/Entity/'
 

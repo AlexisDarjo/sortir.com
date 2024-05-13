@@ -1,24 +1,21 @@
-<nav class="">
-    {% if is_granted('ROLE_ADMIN') %}
-        <button>
-            <span>Villes</span>
-        </button>
-        <button>
-            <span>Sites</span>
-        </button>
-    {% endif %}
-        <button onclick="window.location='{{ path('app_sortie_index') }}'">
-            <span>Accueil</span>
-        </button>
-    {% if app.user is not empty %}
-        <button onclick="window.location='{{ path('app_participant_show', {'id': app.user.id}) }}'">
-            <span>Mon profil</span>
-        </button>
-        <button onclick="window.location='{{ path('app_logout') }}'">
-            <span>Se déconnecter</span>
-        </button>
-        <div>
-            Vous êtes connecté en tant que {{ app.user.mail }}
-        </div>
-    {% endif %}
+<nav class="is-flex is-justify-content-space-around ">
+            {% if is_granted('ROLE_ADMIN') %}
+                <button>
+                    <span>Villes</span>
+                </button>
+                <button>
+                    <span>Sites</span>
+                </button>
+            {% endif %}
+            <button onclick="window.location='{{ path('app_sortie_index') }}'">
+                <span>Accueil</span>
+            </button>
+            {% if app.user is not empty %}
+                <button onclick="window.location='{{ path('app_participant_show', {'id': app.user.id}) }}'">
+                    <span>Mon profil</span>
+                </button>
+                <button onclick="window.location='{{ path('app_logout') }}'">
+                    <span>Se déconnecter</span>
+                </button>
+            {% endif %}
 </nav>

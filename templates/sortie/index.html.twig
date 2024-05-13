@@ -59,6 +59,13 @@
         </tbody>
     </table>
     </div>
-    <button>Créer une sortie<a href="{{ path('app_sortie_new') }}"></a></button>
+
+
+    {% if app.user is not empty %}
+        <button onclick="window.location='{{ path('app_sortie_new') }}'">
+            <span>Créer une sortie</span>
+        </button>
+
+    {% endif %}
 
 {% endblock %}

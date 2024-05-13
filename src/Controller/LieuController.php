@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use App\Form\LieuType;
 use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,10 +27,13 @@ class LieuController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
+        $ville = new Ville();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($ville);
+            $lieu->setVille($ville);
             $entityManager->persist($lieu);
             $entityManager->flush();
 

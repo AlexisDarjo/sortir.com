@@ -97,12 +97,13 @@ class InscriptionController extends AbstractController
         $inscription->setDate(new \DateTime());
 
         // Vérifier si la sortie est ouverte et si la date limite d'inscription n'est pas dépassée
-        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' || $sortie->getDateLimiteInscription() < new \DateTime()) {
-            // Ajouter un message flash
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' ||
+            $sortie->getInscriptions()->count() >= $sortie->getNbInscriptionsMax() ||
+            $sortie->getDateLimiteInscription() < new \DateTime()) {
+
             $this->addFlash('danger', 'Inscription impossible. La sortie est fermée ou la date limite d\'inscription est dépassée.');
             return $this->redirectToRoute('app_sortie_index');
         }
-
 
         $entityManager->persist($inscription);
         $entityManager->flush();
@@ -113,11 +114,20 @@ class InscriptionController extends AbstractController
     }
 
     #[Route('/unsubscribe/{idSortie}/{idUser}', name: 'app_inscription_unsubscribe', methods: ['GET', 'POST'])]
-    public function unsubscribe(Request $request, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
+    public function unsubscribe(Request $request,SortieRepository $sortieRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
     {
         $idUser = $request->attributes->get('idUser');
         $idSortie = $request->attributes->get('idSortie');
         $inscription = $inscriptionRepository->findOneBy(['idParticipant' => $idUser, 'idSortie' => $idSortie]);
+
+        // Vérifier que la sortie n'a pas commencé.
+        $idSortie = $request->attributes->get('idSortie');
+        $sortie = $sortieRepository->find($idSortie);
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' && $sortie->getEtat()->getLibelle() !== 'Créée') {
+            $this->addFlash('danger', 'Désinscription impossible. La date limite est dépassée.');
+            return $this->redirectToRoute('app_sortie_index');
+        }
+
         if ($inscription) {
             $entityManager->remove($inscription);
             $entityManager->flush();
@@ -125,5 +135,4 @@ class InscriptionController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index');
     }
-
 }

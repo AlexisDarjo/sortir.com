@@ -35,7 +35,7 @@ class LieuType extends AbstractType
                     'class' => 'label has-text-white', // Ajoutez la classe CSS souhaitée pour le libellé ici
                 ],
             ])
-            ->add('lieu', VilleType::class, [
+            ->add('ville', VilleType::class, [
                 'label'=>false,
                 'required' => false,
 

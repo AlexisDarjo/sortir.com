@@ -16,14 +16,16 @@ class SecurityController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
 
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $errorMessage = "L'email ou le mot de passe est incorrect. Veuillez réessayer.";
+        $errorMessage ="L'email ou le mot de passe est incorrect. Veuillez réessayer.";
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $errorMessage]);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'errorMessage'=>$errorMessage]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

@@ -1,5 +1,7 @@
 
         {{ form_start(form) }}
             {{ form_widget(form) }}
+            <div  class="field is-flex is-justify-content-center is-align-items-center">
             <button class="btn"><span>{{ button_label|default('Save') }}</span></button>
+            </div>
         {{ form_end(form) }}

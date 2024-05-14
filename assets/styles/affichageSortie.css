@@ -1,0 +1,12 @@
+.custom-form{
+    box-shadow: 10px 10px 10px 10px #5B21B6;
+    border-color: black;
+    border-radius: 10px;
+    background-color: #a78bfa;
+
+}
+
+.custom-table {
+    background-color: #a78bfa;
+    border-radius: 10px;
+}

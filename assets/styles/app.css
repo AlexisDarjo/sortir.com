@@ -1,3 +1,16 @@
 body{
     height: 100% !important;
 }
+
+@font-face {
+    font-family: 'indieFlower';
+    src: url('../fonts/IndieFlower-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'duduCaligraphy';
+    src: url('../fonts/dudu_calligraphy.ttf') format('truetype');
+}
+
+*{
+    font-family: duduCaligraphy, sans-serif;
+}

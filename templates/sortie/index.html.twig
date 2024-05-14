@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortir.com{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="/assets/styles/accueil.css">
@@ -115,9 +115,10 @@
 
 
     {% if app.user is not empty %}
+        <div class="is-flex is-justify-content-center m-2">
         <button onclick="window.location='{{ path('app_sortie_new') }}'">
             <span>Créer une sortie</span>
         </button>
-
+        </div>
     {% endif %}
 {% endblock %}

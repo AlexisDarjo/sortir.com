@@ -7,3 +7,11 @@
     border: #dbeafe solid 2px;
     background-color: #a78bfa;
 }
+
+.green {
+    color: green; /* Changez cette couleur selon vos préférences */
+}
+
+.red {
+    color: red; /* Changez cette couleur selon vos préférences */
+}

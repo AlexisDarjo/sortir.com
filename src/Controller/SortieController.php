@@ -22,9 +22,18 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
+
 #[IsGranted('ROLE_PARTICIPANT')]
 class SortieController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Request $request,SortieRepository $sortieRepository): Response
     {
@@ -130,21 +139,6 @@ class SortieController extends AbstractController
     #[IsGranted('ROLE_ORGANISATEUR')]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-
-        $preloadedLieu = $entityManager->getRepository(Lieu::class)->findOneBy([]);
-        $preloadedVille = $entityManager->getRepository(Ville::class)->findOneBy([]);
-        if ($preloadedLieu instanceof Lieu) {
-            $rue = $preloadedLieu->getRue();
-            $latitude=$preloadedLieu->getLatitude();
-            $longitude=$preloadedLieu->getLongitude();
-        }
-
-        if ($preloadedVille instanceof Ville) {
-            $codePostal = $preloadedVille->getCodePostal();
-            $nomVille = $preloadedVille->getNom();
-
-        }
-
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -157,12 +151,6 @@ class SortieController extends AbstractController
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
-            'rue' => $rue, // Passer la valeur de la rue au modèle Twig
-            'latitude'=> $latitude,
-            'longitude'=>$longitude,
-            'codePostal' => $codePostal,
-            'nomVille'=>$nomVille,
-
         ]);
     }
 
@@ -182,7 +170,7 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_sortie_show', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/adresse/{lieuId}', name: 'get_adresse')]
@@ -207,6 +195,30 @@ class SortieController extends AbstractController
                                 'codePostal'=>$codePostal,
                                 'nomVille'=>$nomVille,
             ]);
+    }
+
+
+    #[Route('/annulation/{id}', name: 'app_sortie_annulation')]
+    public function annulation($id, EntityManagerInterface $entityManager,Request $request): Response
+    {
+        $sortie = $this->entityManager->getRepository(Sortie::class)->find($id);
+        if (!$sortie) {
+            throw $this->createNotFoundException('La sortie avec l\'ID '.$id.' n\'existe pas.');
+        }
+        $reason = $request->query->get('reason');
+        if ($reason === null || empty($reason)) {
+            // Si aucune raison n'a été fournie, rediriger avec un message d'erreur
+            $this->addFlash('error', 'Veuillez fournir un motif d\'annulation.');
+            return $this->redirectToRoute('page_apres_annulation');
+        }
+
+        $sortie->setRaisonAnnulation($reason);
+        $etat = $entityManager->getRepository(Etat::class)->find(6);
+        $sortie->setEtat($etat);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a été annulée avec succès.');
+        return $this->redirectToRoute('app_sortie_index');
     }
 
 }

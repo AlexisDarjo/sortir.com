@@ -66,7 +66,7 @@
                     {% endif %}
                     {% if (sortie.etat.id ==1 or sortie.etat.id ==2) and sortie.getOrganisateur.id == app.user.id %}
                         |
-                        <a href=#>Annuler</a>
+                        <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="openCancelDialog(event, {{ sortie.id }})">Annuler</a>
                     {% endif %}
                     {% if app.user %}
                         {% set isUserRegistered = false %}
@@ -120,4 +120,46 @@
         </button>
 
     {% endif %}
+    <script>
+        function openCancelDialog(event, sortieId) {
+            event.preventDefault();
+            var message = prompt('Veuillez entrer un motif d\'annulation pour cette sortie :');
+            if (message !== null) {
+                window.location.href = '/annulation/' + sortieId + '?reason=' + encodeURIComponent(message);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var cancelLinks = document.querySelectorAll('.cancel-link');
+
+            cancelLinks.forEach(function(cancelLink) {
+                cancelLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var sortieId = cancelLink.getAttribute('id').replace('cancel_link_', '');
+                    var message = prompt('Veuillez entrer un message pour annuler cette sortie :');
+
+                    if (message !== null) {
+                        // Envoyez le message au backend pour l'action d'annulation
+                        // Vous pouvez utiliser AJAX pour cela
+                        // L'exemple suivant suppose que vous utilisez jQuery
+                        $.ajax({
+                            type: 'POST',
+                            url: 'app_sortie_annulation',
+                            data: {
+                                sortieId: sortieId,
+                                message: message
+                            },
+                            success: function(response) {
+                                // Traitez la réponse de votre backend ici
+                                // Par exemple, actualisez la page ou affichez un message de confirmation
+                            },
+                            error: function(xhr, status, error) {
+                                // Traitez les erreurs ici
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

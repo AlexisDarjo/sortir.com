@@ -130,6 +130,21 @@ class SortieController extends AbstractController
     #[IsGranted('ROLE_ORGANISATEUR')]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+
+        $preloadedLieu = $entityManager->getRepository(Lieu::class)->findOneBy([]);
+        $preloadedVille = $entityManager->getRepository(Ville::class)->findOneBy([]);
+        if ($preloadedLieu instanceof Lieu) {
+            $rue = $preloadedLieu->getRue();
+            $latitude=$preloadedLieu->getLatitude();
+            $longitude=$preloadedLieu->getLongitude();
+        }
+
+        if ($preloadedVille instanceof Ville) {
+            $codePostal = $preloadedVille->getCodePostal();
+            $nomVille = $preloadedVille->getNom();
+
+        }
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -142,6 +157,12 @@ class SortieController extends AbstractController
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'rue' => $rue, // Passer la valeur de la rue au modèle Twig
+            'latitude'=> $latitude,
+            'longitude'=>$longitude,
+            'codePostal' => $codePostal,
+            'nomVille'=>$nomVille,
+
         ]);
     }
 
@@ -161,7 +182,7 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_sortie_show', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/adresse/{lieuId}', name: 'get_adresse')]

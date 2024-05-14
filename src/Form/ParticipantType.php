@@ -37,12 +37,12 @@ class ParticipantType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'Mot de passe',
                     'attr' => ['class' => 'input is-rounded'],
                     'hash_property_path' => 'password',
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => 'Confirmez le mot de passse',
                     'attr' => ['class' => 'input is-rounded'],
                 ],
                 'mapped' => false,

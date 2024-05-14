@@ -18,29 +18,26 @@
                                 {{sortie.nom}}</h1>
                         <table class="table custom-table is-flex is-justify-content-center">
                             <tbody>
-                                <tr>
-                                    <th>Id</th>
-                                    <td>{{ sortie.id }}</td>
-                                </tr>
+
 
                                 <tr>
-                                    <th>DateHeureDebut</th>
-                                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                                    <th>Date de la sortie :</th>
+                                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Duree</th>
+                                    <th>Durée et heure de la sortie :</th>
                                     <td>{{ sortie.duree }}</td>
                                 </tr>
                                 <tr>
-                                    <th>DateLimiteInscription</th>
-                                    <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                                    <th>date limite d'inscription :</th>
+                                    <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>NbInscriptionsMax</th>
+                                    <th>Nombe de places</th>
                                     <td>{{ sortie.nbInscriptionsMax }}</td>
                                 </tr>
                                 <tr>
-                                    <th>InfosSortie</th>
+                                    <th>Description</th>
                                     <td>{{ sortie.infosSortie }}</td>
                                 </tr>
                                 {% if sortie.raisonAnnulation is not empty %}
@@ -49,9 +46,38 @@
                                         <td>{{ sortie.raisonAnnulation }}</td>
                                     </tr>
                                 {% endif %}
+                                <tr>
+                                    <th>Site organisateur</th>
+                                    <td>{{ sortie.siteOrganisateur.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Lieu :</th>
+                                    <td>{{ sortie.lieu.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Rue :</th>
+                                    <td>{{ sortie.lieu.rue }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Code postal :</th>
+                                    <td>{{ sortie.lieu.ville.codePostal }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ville :</th>
+                                    <td>{{ sortie.lieu.ville.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <th>latitude :</th>
+                                    <td>{{ sortie.lieu.latitude }}</td>
+                                </tr>
+                                <tr>
+                                    <th>longitude :</th>
+                                    <td>{{ sortie.lieu.longitude }}</td>
+                                </tr>
                             </tbody>
                         </table>
 
+                        {% if sortie.getOrganisateur.id == app.user.id %}
                         <div class="field is-flex is-justify-content-center is-align-items-center">
                             <button class="m-1" onclick="window.location='{{ path('app_sortie_edit', {'id': sortie.id}) }}'">
                                 <span>Modifier</span>
@@ -59,7 +85,7 @@
 
                             {{ include('sortie/_delete_form.html.twig') }}
                         </div>
-
+                        {% endif %}
                     </div>
                 </div>
             </div>

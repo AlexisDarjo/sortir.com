@@ -54,6 +54,14 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/profil', name: 'app_participant_showParticipants', methods: ['GET'])]
+    public function showParticipants(Participant $participant): Response
+    {
+        return $this->render('participant/showParticipants.html.twig', [
+            'participant' => $participant,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
     {

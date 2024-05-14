@@ -35,6 +35,12 @@
                 <th>InfosSortie</th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
+            {% if sortie.raisonAnnulation is not empty %}
+            <tr>
+                <th>Motif annulation</th>
+                <td>{{ sortie.infosSortie }}</td>
+            </tr>
+            {% endif %}
         </tbody>
     </table>
 

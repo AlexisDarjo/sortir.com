@@ -52,6 +52,13 @@ class Sortie
     #[ORM\OneToMany(targetEntity: Inscription::class, mappedBy: 'idSortie', orphanRemoval: true)]
     private Collection $inscriptions;
 
+    #[ORM\ManyToOne(inversedBy: 'sortiesOrganisees')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Participant $organisateur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $raisonAnnulation = null;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -199,6 +206,30 @@ class Sortie
                 $inscription->setIdSortie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): static
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getRaisonAnnulation(): ?string
+    {
+        return $this->raisonAnnulation;
+    }
+
+    public function setRaisonAnnulation(?string $raisonAnnulation): static
+    {
+        $this->raisonAnnulation = $raisonAnnulation;
 
         return $this;
     }

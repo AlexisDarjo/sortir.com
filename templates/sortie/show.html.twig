@@ -16,8 +16,6 @@
 
                         <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">
                                 {{sortie.nom}}</h1>
-
-
                         <table class="table custom-table is-flex is-justify-content-center">
                             <tbody>
                                 <tr>
@@ -45,6 +43,12 @@
                                     <th>InfosSortie</th>
                                     <td>{{ sortie.infosSortie }}</td>
                                 </tr>
+                                {% if sortie.raisonAnnulation is not empty %}
+                                    <tr>
+                                        <th>Motif annulation</th>
+                                        <td>{{ sortie.infosSortie }}</td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
 

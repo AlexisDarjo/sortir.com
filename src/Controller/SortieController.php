@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_PARTICIPANT')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_sortie_index')]
     public function index(Request $request,SortieRepository $sortieRepository): Response
     {
         $form = $this->createForm(FilterFormType::class);
@@ -33,15 +33,24 @@ class SortieController extends AbstractController
 
         $sorties=$sortieRepository->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $formData = $form->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $dateDebut = $data->getDateHeureDebut();
+            $dateFin = $data->getDateLimiteInscription();
+            $etatPassee = $form->get('etatPassee')->getData(); // Récupère la valeur de la checkbox
+
+            // Combine les filtres dans une requete
+            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee);
         }
+
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ORGANISATEUR')]

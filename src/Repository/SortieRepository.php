@@ -45,4 +45,23 @@ class SortieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByFilters(?\DateTimeInterface $dateDebut, ?\DateTimeInterface $dateFin, ?bool $etatPassee): array
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        if ($dateDebut && $dateFin) {
+            $qb->andWhere('s.dateHeureDebut BETWEEN :dateDebut AND :dateFin')
+                ->setParameter('dateDebut', $dateDebut)
+                ->setParameter('dateFin', $dateFin);
+        }
+
+        if ($etatPassee) {
+            $qb->join('s.etat', 'e')
+                ->andWhere('e.libelle = :libelle')
+                ->setParameter('libelle', 'Passée'); // Utilisez la valeur de chaîne 'Passée'
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

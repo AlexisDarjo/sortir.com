@@ -8,64 +8,41 @@
 
 {% block body %}
 
-    <div class="container">
-        {{ form_start(form) }}
+    <div class="container" data-turbo="false">
+        {{ form_start(form, {'action': path('app_sortie_index'), 'method': 'POST'}) }}
         <div class="form-group">
-            {{ form_row(form.siteOrganisateur, {'label': 'Site organisateur'}) }}
             {{ form_row(form.dateHeureDebut, {'label': 'Entre'}) }}
-            {{ form_row(form.dateHeureFin, {'label': 'Et'}) }}
-            {{ form_row(form.nbInscriptionsMax, {'label': 'Nombre d\'inscriptions maximum'}) }}
-            {{ form_row(form.infosSortie, {'label': 'Informations sur la sortie'}) }}
-            {{ form_row(form.etat, {'label': 'État'}) }}
-            {{ form_row(form.lieu, {'label': 'Lieu'}) }}
+            {{ form_row(form.dateLimiteInscription, {'label': 'Et'}) }}
+            {{ form_row(form.etatPassee, {'label': 'Sorties passées'}) }}
+            {{ form_errors(form) }}
 
+            <button type="submit" class="btn btn-primary"><span>Filtrer</span></button>
         </div>
-        <button type="submit" class="btn btn-primary">Filtrer</button>
+            {{ form_rest(form) }}
         {{ form_end(form) }}
 
-    <table class="table is-fullwidth custom-table">
-        <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.getInscriptions().count() }} / {{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
-                <td class="is-flex ml-4 mt-1">
-                    {% set isUserRegistered = false %}
-                    {% for inscription in app.user.inscriptions %}
-                        {% if inscription.idSortie.id == sortie.id %}
-                            {% set isUserRegistered = true %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if isUserRegistered %}
-                        <i class="fa-solid fa-circle-check green"></i>
-                    {% else %}
-                        <i class="fa-sharp fa-solid fa-circle-xmark red"></i>
-                    {% endif %}
-                </td>
-                <td>{{ sortie.getSiteOrganisateur.nom}}</td>
-                <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    |
-                    {% if sortie.etat.id     ==1 %}
-                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-                    |
-                    {% endif %}
-                    {% if app.user %}
+        <table class="table is-fullwidth custom-table">
+            <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/places</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ sortie.getInscriptions().count() }} / {{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td class="is-flex ml-4 mt-1">
                         {% set isUserRegistered = false %}
                         {% for inscription in app.user.inscriptions %}
                             {% if inscription.idSortie.id == sortie.id %}
@@ -73,36 +50,57 @@
                             {% endif %}
                         {% endfor %}
                         {% if isUserRegistered %}
-                            <a href="{{ path('app_inscription_unsubscribe', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">Se désinscrire</a>
+                            <i class="fa-solid fa-circle-check green"></i>
                         {% else %}
-                            <a href="{{ path('app_inscription_participate', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">S'inscrire</a>
+                            <i class="fa-sharp fa-solid fa-circle-xmark red"></i>
                         {% endif %}
-                    {% endif %}
+                    </td>
+                    <td>{{ sortie.getSiteOrganisateur.nom}}</td>
+                    <td>
+                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                        |
+                        {% if sortie.etat.id     ==1 %}
+                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                        |
+                        {% endif %}
+                        {% if app.user %}
+                            {% set isUserRegistered = false %}
+                            {% for inscription in app.user.inscriptions %}
+                                {% if inscription.idSortie.id == sortie.id %}
+                                    {% set isUserRegistered = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if isUserRegistered %}
+                                <a href="{{ path('app_inscription_unsubscribe', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">Se désinscrire</a>
+                            {% else %}
+                                <a href="{{ path('app_inscription_participate', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">S'inscrire</a>
+                            {% endif %}
+                        {% endif %}
 
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun sorties trouvée </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun sorties trouvée </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-        {# Message flash qui se met par dessus la fenetre ! =) #}
-        {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="modal is-active">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <div class="box">
-                        <p class="has-text-centered">{{ message }}</p>
+            {# Message flash qui se met par dessus la fenetre ! =) #}
+            {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="modal is-active">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box">
+                            <p class="has-text-centered">{{ message }}</p>
+                        </div>
                     </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="this.parentElement.classList.remove('is-active')"></button>
                 </div>
-                <button class="modal-close is-large" aria-label="close" onclick="this.parentElement.classList.remove('is-active')"></button>
-            </div>
-        {% endfor %}
-        {% endfor %}
+            {% endfor %}
+            {% endfor %}
 
     </div>
 

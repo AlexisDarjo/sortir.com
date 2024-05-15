@@ -42,7 +42,7 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</td>
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</td>
-                <td>{{ sortie.getInscriptions().count() }} / {{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.getInscriptions().count() }} sur {{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
                 <td class="is-flex ml-4 mt-1">
                     {% set isUserRegistered = false %}

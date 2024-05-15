@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Form\InscriptionType;
+use App\Repository\EtatRepository;
 use App\Repository\InscriptionRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -13,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\VarDumper\VarDumper;
 
 #[Route('/inscription')]
 class InscriptionController extends AbstractController
@@ -83,7 +86,7 @@ class InscriptionController extends AbstractController
     }
 
     #[Route('/{idSortie}/{idUser}', name: 'app_inscription_participate', methods: ['GET', 'POST'])]
-    public function participate(Request $request,SortieRepository $sortieRepository, ParticipantRepository $participantRepository, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function participate(Request $request,EtatRepository $etatRepository,SortieRepository $sortieRepository, ParticipantRepository $participantRepository, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $inscription = new Inscription();
         $idUser = $request->attributes->get('idUser');
@@ -108,13 +111,24 @@ class InscriptionController extends AbstractController
         $entityManager->persist($inscription);
         $entityManager->flush();
 
+        // Afficher un message de débogage
+        error_log('Message de débogage');
+
+        //Si le nombre max de participant max est atteint, alors l'état change ete devient Cloturée (id =3)
+        if ($sortie->getInscriptions()->count() == $sortie->getNbInscriptionsMax()-1){
+            $etat=$etatRepository->find(3);
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
         return $this->redirectToRoute('app_sortie_index', [
             'sortie' => $sortie,
         ]);
     }
 
     #[Route('/unsubscribe/{idSortie}/{idUser}', name: 'app_inscription_unsubscribe', methods: ['GET', 'POST'])]
-    public function unsubscribe(Request $request,SortieRepository $sortieRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
+    public function unsubscribe(Request $request,EtatRepository $etatRepository,SortieRepository $sortieRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
     {
         $idUser = $request->attributes->get('idUser');
         $idSortie = $request->attributes->get('idSortie');
@@ -123,13 +137,19 @@ class InscriptionController extends AbstractController
         // Vérifier que la sortie n'a pas commencé.
         $idSortie = $request->attributes->get('idSortie');
         $sortie = $sortieRepository->find($idSortie);
-        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' && $sortie->getEtat()->getLibelle() !== 'Créée') {
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' && $sortie->getEtat()->getLibelle() !== 'Créée'  && $sortie->getEtat()->getLibelle() !== 'Clôturée') {
             $this->addFlash('danger', 'Désinscription impossible. La date limite est dépassée.');
             return $this->redirectToRoute('app_sortie_index');
         }
 
         if ($inscription) {
             $entityManager->remove($inscription);
+            //Si le nombre max de participant max est atteint, alors l'état change ete devient Ouverte (id =3)
+            if ($sortie->getInscriptions()->count() == $sortie->getNbInscriptionsMax()){
+                $etat=$etatRepository->find(2);
+                $sortie->setEtat($etat);
+                $entityManager->persist($sortie);
+            }
             $entityManager->flush();
         }
 

@@ -67,6 +67,12 @@
                         <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="openCancelDialog(event, {{ sortie.id }})">Annuler</a>
                     {% endif %}
                     {% if app.user %}
+                        {% set isUserRegistered = false %}
+                        {% for inscription in app.user.inscriptions %}
+                            {% if inscription.idSortie.id == sortie.id %}
+                                {% set isUserRegistered = true %}
+                            {% endif %}
+                        {% endfor %}
                         {% if sortie.dateLimiteInscription|date('Y-m-d') > 'now'|date('Y-m-d')%}
                             |
                             {% if isUserRegistered %}

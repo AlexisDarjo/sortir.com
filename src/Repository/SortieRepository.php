@@ -59,7 +59,7 @@ class SortieRepository extends ServiceEntityRepository
         if ($etatPassee) {
             $qb->join('s.etat', 'e')
                 ->andWhere('e.libelle = :libelle')
-                ->setParameter('libelle', 'Passée'); // Utilisez la valeur de chaîne 'Passée'
+                ->setParameter('libelle', 'Créée'); // Utilisez la valeur de chaîne 'Passée'
         }
 
         return $qb->getQuery()->getResult();

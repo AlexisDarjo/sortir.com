@@ -43,6 +43,7 @@ class SortieController extends AbstractController
         $sorties=$sortieRepository->findAll();
 
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $dateDebut = $data->getDateHeureDebut();
@@ -51,7 +52,9 @@ class SortieController extends AbstractController
 
             // Combine les filtres dans une requete
             $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee);
+
         }
+
 
 
         return $this->render('sortie/index.html.twig', [

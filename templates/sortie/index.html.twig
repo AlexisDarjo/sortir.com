@@ -57,7 +57,7 @@
                         <i class="fa-sharp fa-solid fa-circle-xmark red"></i>
                     {% endif %}
                 </td>
-                <td><a href="{{ path('app_participant_showParticipants', {'id': sortie.getOrganisateur.id}) }}">{{ sortie.getOrganisateur.prenom}}.{{ sortie.getOrganisateur.nom|slice(0, 1)  }} </a></td>
+                <td><a href="{{ path('app_participant_showPublic', {'id': sortie.getOrganisateur.id}) }}">{{ sortie.getOrganisateur.prenom}}.{{ sortie.getOrganisateur.nom|slice(0, 1)  }} </a></td>
                 <td>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     {% if (sortie.etat.id ==1 or sortie.etat.id ==2) and sortie.getOrganisateur.id == app.user.id %}

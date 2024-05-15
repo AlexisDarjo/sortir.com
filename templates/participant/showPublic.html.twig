@@ -38,6 +38,12 @@
                                     <th>Site de rattachement</th>
                                     <td>{{ participant.site.nom is not empty ? participant.site.nom : 'aucun' }}</td>
                                 </tr>
+                                {% if  participant.administrateur == true %}
+                                <tr>
+                                    <th>Administrateur</th>
+                                    <td>{{ participant.administrateur ? 'Oui' : 'Non' }}</td>
+                                </tr>
+                                {% endif %}
 
 
                             </tbody>

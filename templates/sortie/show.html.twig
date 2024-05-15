@@ -77,15 +77,21 @@
                             </tbody>
                         </table>
 
-                        {% if sortie.getOrganisateur.id == app.user.id %}
                         <div class="field is-flex is-justify-content-center is-align-items-center">
+                        {% if sortie.getOrganisateur.id == app.user.id %}
+
                             <button class="m-1" onclick="window.location='{{ path('app_sortie_edit', {'id': sortie.id}) }}'">
                                 <span>Modifier</span>
                             </button>
 
                             {{ include('sortie/_delete_form.html.twig') }}
-                        </div>
+
                         {% endif %}
+                        <button class="m-1" onclick="window.location='{{ path('app_inscription_participants', {'idSortie': sortie.id}) }}'">
+                            <span>Liste des participants</span>
+                        </button>
+                        </div>
+
                     </div>
                 </div>
             </div>

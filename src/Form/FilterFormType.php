@@ -22,15 +22,21 @@ class FilterFormType extends AbstractType
             ->add('dateHeureDebut', DateTimeType::class, [
                 'widget' => 'single_text',
                 'required' => false,
+                'mapped' => false, // Ne lie pas ce champ à une propriété de l'entité
 
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'widget' => 'single_text',
                 'required' => false,
+                'mapped' => false, // Ne lie pas ce champ à une propriété de l'entité
 
             ])
             ->add('etatPassee', CheckboxType::class, [
                 'required' => false, // La case à cocher n'est pas obligatoire
+                'mapped' => false,
+            ])
+            ->add('organisateur', CheckboxType::Class, [
+                'required' => false,
                 'mapped' => false,
             ])
 

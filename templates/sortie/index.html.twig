@@ -14,6 +14,7 @@
             {{ form_row(form.dateHeureDebut, {'label': 'Entre'}) }}
             {{ form_row(form.dateLimiteInscription, {'label': 'Et'}) }}
             {{ form_row(form.etatPassee, {'label': 'Sorties passées'}) }}
+            {{ form_row(form.organisateur, {'label': 'Sorties dont je suis l\'organisateur/trice'}) }}
             {{ form_errors(form) }}
 
             <button type="submit" class="btn btn-primary"><span>Filtrer</span></button>
@@ -150,7 +151,7 @@
                                     // Traitez les erreurs ici
                                 }
                             });
-                        }
+                        }}
                     });
                 });
             });

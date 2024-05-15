@@ -32,6 +32,7 @@ class SortieController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+
     }
 
     #[Route('/', name: 'app_sortie_index')]
@@ -43,15 +44,16 @@ class SortieController extends AbstractController
         $sorties=$sortieRepository->findAll();
 
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $dateDebut = $data->getDateHeureDebut();
-            $dateFin = $data->getDateLimiteInscription();
+            $dateDebut = $form->get('dateHeureDebut')->getData(); //$data->getDateHeureDebut();
+            $dateFin = $form->get('dateLimiteInscription')->getData(); //$data->getDateLimiteInscription();
             $etatPassee = $form->get('etatPassee')->getData(); // Récupère la valeur de la checkbox
+            $organisateur = $form->get('organisateur')->getData();
+            $organisateurId = $this->getUser()->getId();
+
 
             // Combine les filtres dans une requete
-            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee);
+            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee, $organisateurId);
 
         }
 

@@ -8,19 +8,17 @@
 
 {% block body %}
 
-    <div class="container">
-        {{ form_start(form) }}
+    <div class="container" data-turbo="false">
+        {{ form_start(form, {'action': path('app_sortie_index'), 'method': 'POST'}) }}
         <div class="form-group">
-            {{ form_row(form.siteOrganisateur, {'label': 'Site organisateur'}) }}
             {{ form_row(form.dateHeureDebut, {'label': 'Entre'}) }}
-            {{ form_row(form.dateHeureFin, {'label': 'Et'}) }}
-            {{ form_row(form.nbInscriptionsMax, {'label': 'Nombre d\'inscriptions maximum'}) }}
-            {{ form_row(form.infosSortie, {'label': 'Informations sur la sortie'}) }}
-            {{ form_row(form.etat, {'label': 'État'}) }}
-            {{ form_row(form.lieu, {'label': 'Lieu'}) }}
+            {{ form_row(form.dateLimiteInscription, {'label': 'Et'}) }}
+            {{ form_row(form.etatPassee, {'label': 'Sorties passées'}) }}
+            {{ form_errors(form) }}
 
+            <button type="submit" class="btn btn-primary"><span>Filtrer</span></button>
         </div>
-        <button type="submit" class="btn btn-primary">Filtrer</button>
+            {{ form_rest(form) }}
         {{ form_end(form) }}
 
     <table class="table is-fullwidth custom-table">
@@ -69,13 +67,6 @@
                         <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="openCancelDialog(event, {{ sortie.id }})">Annuler</a>
                     {% endif %}
                     {% if app.user %}
-                        {% set isUserRegistered = false %}
-                        {% for inscription in app.user.inscriptions %}
-                            {% if inscription.idSortie.id == sortie.id %}
-                                {% set isUserRegistered = true %}
-                            {% endif %}
-                        {% endfor %}
-
                         {% if sortie.dateLimiteInscription|date('Y-m-d') > 'now'|date('Y-m-d')%}
                             |
                             {% if isUserRegistered %}
@@ -85,82 +76,76 @@
                             {% endif %}
                         {% endif %}
                     {% endif %}
-
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun sorties trouvée </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        {# Message flash qui se met par dessus la fenetre ! =) #}
-        {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="modal is-active">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <div class="box">
-                        <p class="has-text-centered">{{ message }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">Aucun sorties trouvée </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+            {# Message flash qui se met par dessus la fenetre ! =) #}
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="modal is-active">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <div class="box">
+                                <p class="has-text-centered">{{ message }}</p>
+                            </div>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close" onclick="this.parentElement.classList.remove('is-active')"></button>
                     </div>
-                </div>
-                <button class="modal-close is-large" aria-label="close" onclick="this.parentElement.classList.remove('is-active')"></button>
-            </div>
-        {% endfor %}
-        {% endfor %}
-
-    </div>
-
-
-    {% if app.user is not empty %}
-        <div class="is-flex is-justify-content-center m-2">
-        <button onclick="window.location='{{ path('app_sortie_new') }}'">
-            <span>Créer une sortie</span>
-        </button>
+                {% endfor %}
+            {% endfor %}
         </div>
-    {% endif %}
-    <script>
-        function openCancelDialog(event, sortieId) {
-            event.preventDefault();
-            var message = prompt('Veuillez entrer un motif d\'annulation pour cette sortie :');
-            if (message !== null) {
-                window.location.href = '/annulation/' + sortieId + '?reason=' + encodeURIComponent(message);
+        {% if app.user is not empty %}
+            <div class="is-flex is-justify-content-center m-2">
+            <button onclick="window.location='{{ path('app_sortie_new') }}'">
+                <span>Créer une sortie</span>
+            </button>
+            </div>
+        {% endif %}
+        <script>
+            function openCancelDialog(event, sortieId) {
+                event.preventDefault();
+                var message = prompt('Veuillez entrer un motif d\'annulation pour cette sortie :');
+                if (message !== null) {
+                    window.location.href = '/annulation/' + sortieId + '?reason=' + encodeURIComponent(message);
+                }
             }
-        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            var cancelLinks = document.querySelectorAll('.cancel-link');
+            document.addEventListener("DOMContentLoaded", function() {
+                var cancelLinks = document.querySelectorAll('.cancel-link');
 
-            cancelLinks.forEach(function(cancelLink) {
-                cancelLink.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var sortieId = cancelLink.getAttribute('id').replace('cancel_link_', '');
-                    var message = prompt('Veuillez entrer un message pour annuler cette sortie :');
+                cancelLinks.forEach(function(cancelLink) {
+                    cancelLink.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        var sortieId = cancelLink.getAttribute('id').replace('cancel_link_', '');
+                        var message = prompt('Veuillez entrer un message pour annuler cette sortie :');
 
-                    if (message !== null) {
-                        // Envoyez le message au backend pour l'action d'annulation
-                        // Vous pouvez utiliser AJAX pour cela
-                        // L'exemple suivant suppose que vous utilisez jQuery
-                        $.ajax({
-                            type: 'POST',
-                            url: 'app_sortie_annulation',
-                            data: {
-                                sortieId: sortieId,
-                                message: message
-                            },
-                            success: function(response) {
-                                // Traitez la réponse de votre backend ici
-                                // Par exemple, actualisez la page ou affichez un message de confirmation
-                            },
-                            error: function(xhr, status, error) {
-                                // Traitez les erreurs ici
-                            }
-                        });
-                    }
+                        if (message !== null) {
+                            // Envoyez le message au backend pour l'action d'annulation
+                            // Vous pouvez utiliser AJAX pour cela
+                            // L'exemple suivant suppose que vous utilisez jQuery
+                            $.ajax({
+                                type: 'POST',
+                                url: 'app_sortie_annulation',
+                                data: {
+                                    sortieId: sortieId,
+                                    message: message
+                                },
+                                success: function(response) {
+                                    // Traitez la réponse de votre backend ici
+                                    // Par exemple, actualisez la page ou affichez un message de confirmation
+                                },
+                                error: function(xhr, status, error) {
+                                    // Traitez les erreurs ici
+                                }
+                            });
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>
 {% endblock %}

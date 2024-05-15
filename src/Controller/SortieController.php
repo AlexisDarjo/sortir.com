@@ -27,7 +27,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_PARTICIPANT')]
 class SortieController extends AbstractController
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -35,7 +34,7 @@ class SortieController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_sortie_index')]
     public function index(Request $request,SortieRepository $sortieRepository): Response
     {
         $form = $this->createForm(FilterFormType::class);
@@ -43,9 +42,17 @@ class SortieController extends AbstractController
 
         $sorties=$sortieRepository->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $formData = $form->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $dateDebut = $data->getDateHeureDebut();
+            $dateFin = $data->getDateLimiteInscription();
+            $etatPassee = $form->get('etatPassee')->getData(); // Récupère la valeur de la checkbox
+
+            // Combine les filtres dans une requete
+            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee);
         }
+
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
@@ -173,13 +180,6 @@ class SortieController extends AbstractController
             'nomVille'=>$nomVille,
         ]);
     }
-
-
-
-
-
-
-
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ORGANISATEUR')]

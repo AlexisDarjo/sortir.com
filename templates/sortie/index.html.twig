@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="/assets/styles/accueil.css">
+    <link rel="stylesheet" href="/assets/styles/accueil.css">
 {% endblock %}
 
 {% block body %}
@@ -22,76 +22,9 @@
         {{ form_rest(form) }}
         {{ form_end(form) }}
 
-
-    <table class="table is-fullwidth custom-table">
-        <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</td>
-                <td>{{ sortie.getInscriptions().count() }} sur {{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
-                <td class="is-flex ml-4 mt-1">
-                    {% set isUserRegistered = false %}
-                    {% for inscription in app.user.inscriptions %}
-                        {% if inscription.idSortie.id == sortie.id %}
-                            {% set isUserRegistered = true %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if isUserRegistered %}
-                        <i class="fa-solid fa-circle-check green"></i>
-                    {% else %}
-                        <i class="fa-sharp fa-solid fa-circle-xmark red"></i>
-                    {% endif %}
-                </td>
-                <td><a href="{{ path('app_participant_showPublic', {'id': sortie.getOrganisateur.id}) }}">{{ sortie.getOrganisateur.prenom}}.{{ sortie.getOrganisateur.nom|slice(0, 1)  }} </a></td>
-                <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    {% if (sortie.etat.id ==1 or sortie.etat.id ==2) and sortie.getOrganisateur.id == app.user.id %}
-                        |
-                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-                    {% endif %}
-                    {% if (sortie.etat.id ==1 or sortie.etat.id ==2) and sortie.getOrganisateur.id == app.user.id %}
-                        |
-                        <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="openCancelDialog(event, {{ sortie.id }})">Annuler</a>
-                    {% endif %}
-                    {% if app.user %}
-                        {% set isUserRegistered = false %}
-                        {% for inscription in app.user.inscriptions %}
-                            {% if inscription.idSortie.id == sortie.id %}
-                                {% set isUserRegistered = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if sortie.dateLimiteInscription|date('Y-m-d') > 'now'|date('Y-m-d')%}
-                            |
-                            {% if isUserRegistered %}
-                                <a href="{{ path('app_inscription_unsubscribe', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">Se désinscrire</a>
-                            {% else %}
-                                <a href="{{ path('app_inscription_participate', {'idSortie': sortie.id, 'idUser': app.user.id}) }}">S'inscrire</a>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
-                    </td>
-                </tr>
-            {% else %}
-
         <div class="scrollable-table custom-form ">
             <table class="table is-fullwidth mt-1 custom-table">
                 <thead>
-
                 <tr>
                     <th>Nom de la sortie</th>
                     <th>Date de la sortie</th>
@@ -124,7 +57,7 @@
                                 <i class="fa-sharp fa-solid fa-circle-xmark red"></i>
                             {% endif %}
                         </td>
-                        <td><a href="{{ path('app_participant_showParticipants', {'id': sortie.getOrganisateur.id}) }}">{{ sortie.getOrganisateur.prenom}}.{{ sortie.getOrganisateur.nom|slice(0, 1)  }} </a></td>
+                        <td><a href="{{ path('app_participant_showPublic', {'id': sortie.getOrganisateur.id}) }}">{{ sortie.getOrganisateur.prenom}}.{{ sortie.getOrganisateur.nom|slice(0, 1)  }} </a></td>
                         <td>
                             <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Afficher</a>
                             {% if (sortie.etat.id ==1 or sortie.etat.id ==2) and sortie.getOrganisateur.id == app.user.id %}

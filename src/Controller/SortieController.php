@@ -45,20 +45,19 @@ class SortieController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dateDebut = $form->get('dateHeureDebut')->getData(); //$data->getDateHeureDebut();
-            $dateFin = $form->get('dateLimiteInscription')->getData(); //$data->getDateLimiteInscription();
-            $etatPassee = $form->get('etatPassee')->getData(); // Récupère la valeur de la checkbox
-            $organisateur = $form->get('organisateur')->getData();
+
+            $dateDebut = $form->get('dateHeureDebut')->getData();  //$form->get('dateHeureDebut')->getData(); //$data->getDateHeureDebut();
+            $dateFin = $form->get('dateLimiteInscription')->getData(); //$form->get('dateLimiteInscription')->getData(); //$data->getDateLimiteInscription();
+            $isEtatPassee = $form->get('etatPassee')->getData(); // Récupère la valeur de la checkbox
+            $isOrganisateur = $form->get('organisateur')->getData();
             $organisateurId = $this->getUser()->getId();
+            $isInscrit = $form->get('inscrit')->getData();
 
 
             // Combine les filtres dans une requete
-            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $etatPassee, $organisateurId);
+            $sorties = $sortieRepository->findByFilters($dateDebut, $dateFin, $isEtatPassee, $isOrganisateur, $organisateurId, $isInscrit );
 
         }
-
-
-
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
             'form' => $form->createView(),

@@ -15,8 +15,8 @@
             {{ form_row(form.dateLimiteInscription, {'label': 'Et'}) }}
             {{ form_row(form.etatPassee, {'label': 'Sorties passées'}) }}
             {{ form_row(form.organisateur, {'label': 'Sorties dont je suis l\'organisateur/trice'}) }}
+            {{ form_row(form.inscrit, {'label': 'Sorties auxquelles je suis inscrit/e'}) }}
             {{ form_errors(form) }}
-
             <button type="submit" class="btn btn-primary"><span>Filtrer</span></button>
         </div>
             {{ form_rest(form) }}

@@ -121,6 +121,10 @@
                                     |
                                     <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="openCancelDialog(event, {{ sortie.id }})">Annuler</a>
                                 {% endif %}
+                                {% if sortie.etat.id ==1 and sortie.getOrganisateur.id == app.user.id %}
+                                    |
+                                    <a href="{{ path('app_sortie_annulation', {'id': sortie.id}) }}" class="cancel-link" onclick="window.location='{{ path('app_sortie_publish', {'id': sortie.id}) }}'">Publier</a>
+                                {% endif %}
                                 {% if app.user %}
                                     {% set isUserRegistered = false %}
                                     {% for inscription in app.user.inscriptions %}

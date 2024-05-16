@@ -77,7 +77,7 @@ class InscriptionController extends AbstractController
     #[Route('/{idParticipant}', name: 'app_inscription_delete', methods: ['POST'])]
     public function delete(Request $request, Inscription $inscription, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$inscription->getIdParticipant(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $inscription->getIdParticipant(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($inscription);
             $entityManager->flush();
         }
@@ -87,6 +87,7 @@ class InscriptionController extends AbstractController
 
     #[Route('/{idSortie}/{idUser}', name: 'app_inscription_participate', methods: ['GET', 'POST'])]
     public function participate(Request $request,EtatRepository $etatRepository,SortieRepository $sortieRepository, ParticipantRepository $participantRepository, Sortie $sortie, EntityManagerInterface $entityManager): Response
+
     {
         $inscription = new Inscription();
         $idUser = $request->attributes->get('idUser');
@@ -129,6 +130,7 @@ class InscriptionController extends AbstractController
 
     #[Route('/unsubscribe/{idSortie}/{idUser}', name: 'app_inscription_unsubscribe', methods: ['GET', 'POST'])]
     public function unsubscribe(Request $request,EtatRepository $etatRepository,SortieRepository $sortieRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
+
     {
         $idUser = $request->attributes->get('idUser');
         $idSortie = $request->attributes->get('idSortie');
@@ -155,4 +157,23 @@ class InscriptionController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index');
     }
+
+    #[Route('/{idSortie}/', name: 'app_inscription_showBySortie', methods: ['GET', 'POST'])]
+    public function showBySortie(Request $request, SortieRepository $sortieRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
+    {
+        $idSortie = $request->attributes->get('idSortie');
+        $sortie = $entityManager->getRepository(Sortie::class)->find($idSortie);
+
+        $participants = $sortie->getInscriptions()->map(function($inscription) {
+            return $inscription->getIdParticipant();
+        });
+
+        // Passer les données à la vue
+        return $this->render('votre_template.html.twig', [
+            'sortie' => $sortie,
+            'participants' => $participants,
+        ]);
+    }
+
+
 }

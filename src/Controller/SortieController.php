@@ -70,7 +70,12 @@ class SortieController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
-        $etat = $entityManager->getRepository(Etat::class)->find(1);
+
+        $organisateur = $this->getUser();
+
+        $sortie->setOrganisateur($organisateur);
+
+        $etat = $entityManager->getRepository(Etat::class)->find(2);
         $sortie->setEtat($etat);
 
         // Récupérer le lieu à partir de la sortie
@@ -109,7 +114,7 @@ class SortieController extends AbstractController
 
         }
 
-        $form = $this->createForm(SortieType::class, $sortie,['lieu' => $lieu]);
+        $form = $this->createForm(SortieType::class, $sortie,['lieu' => $lieu, 'ville' => $ville]);
         $form->handleRequest($request);
 
         $formSubmitted = false;
@@ -121,7 +126,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Un souhait a été crée.');
+            $this->addFlash('success', 'Une sortie a été crée.');
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -245,5 +250,6 @@ class SortieController extends AbstractController
         $this->addFlash('success', 'La sortie a été annulée avec succès.');
         return $this->redirectToRoute('app_sortie_index');
     }
+
 
 }

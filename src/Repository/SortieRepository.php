@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\Clock\now;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -77,5 +79,26 @@ class SortieRepository extends ServiceEntityRepository
 
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findAllNonArchivee()
+    {
+        $entityManager = $this->getEntityManager();
+        $etatArchive = $entityManager->getRepository(Etat::class)->find(7); // 7 correspond à l'état "Archivée"
+
+        $now = new \DateTime(); // Récupère la date et l'heure actuelles
+        $oneMonthAgo = clone $now;
+        $oneMonthAgo->modify('-1 month'); // Soustrait 1 mois à la date actuelle
+
+        $sorties = $this->findAll();
+
+        foreach ($sorties as $sortie) {
+            if ($sortie->getDateHeureDebut() <= $oneMonthAgo) {
+                $sortie->setEtat($etatArchive);
+                $entityManager->persist($sortie);
+            }
+        }
+        $entityManager->flush();
+        return $sorties;
     }
 }

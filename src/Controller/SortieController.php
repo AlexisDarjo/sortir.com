@@ -42,7 +42,8 @@ class SortieController extends AbstractController
         $form = $this->createForm(FilterFormType::class);
         $form->handleRequest($request);
 
-        $sorties=$sortieRepository->findAll();
+        $sorties=$sortieRepository->findAllNonArchivee();
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {

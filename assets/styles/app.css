@@ -1,6 +1,11 @@
 body{
     height: 100% !important;
 }
+.noscroll{
+    overflow-y: hidden; /* Pour masquer la barre de défilement verticale */
+
+}
+
 
 @font-face {
     font-family: 'indieFlower';

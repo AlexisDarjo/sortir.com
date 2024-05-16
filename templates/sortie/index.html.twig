@@ -22,8 +22,9 @@
         {{ form_rest(form) }}
         {{ form_end(form) }}
 
-        <table class="table is-fullwidth mt-1 custom-form custom-table">
-            <thead>
+        <div class="scrollable-table custom-form ">
+            <table class="table is-fullwidth mt-1 custom-table">
+                <thead>
                 <tr>
                     <th>Nom de la sortie</th>
                     <th>Date de la sortie</th>
@@ -34,8 +35,8 @@
                     <th>Organisateur</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for sortie in sorties %}
                     <tr>
                         <td>{{ sortie.nom }}</td>
@@ -90,8 +91,9 @@
                         <td colspan="8">Aucun sorties trouvée </td>
                     </tr>
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         {# Message flash qui se met par dessus la fenetre ! =) #}
         {% for type, messages in app.flashes %}
             {% for message in messages %}

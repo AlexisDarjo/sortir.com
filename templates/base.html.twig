@@ -25,7 +25,7 @@
         {% if app.user is not empty %}
             <div>
                 Bonjour {{ app.user.prenom }} <br/>
-                Date du jour : {{ 'now'|date('d-M-Y') }}
+                Date du jour : {{ 'now'|date('d F Y') }}
             </div>
         {% endif %}
         {% include 'nav.html.twig' %}

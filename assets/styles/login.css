@@ -1,5 +1,5 @@
 .custom-form{
-    box-shadow: 10px 10px 10px 10px #5B21B6;
+    /* box-shadow: 25px 25px 100px 10px #2ccbc4; */
     border-color: black;
     border-radius: 10px;
     background-color: #a78bfa;
@@ -17,3 +17,6 @@
     color: #ffaaaa;
 }
 
+header{
+    border-radius: 0px 0px 1000px 1000px;
+}

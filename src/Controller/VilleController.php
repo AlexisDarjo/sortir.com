@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/ville')]
 class VilleController extends AbstractController
 {
-    #[Route('/', name: 'app_ville_index', methods: ['GET'])]
+    #[Route('/list', name: 'app_ville_index', methods: ['GET'])]
     public function index(VilleRepository $villeRepository): Response
     {
         return $this->render('ville/index.html.twig', [

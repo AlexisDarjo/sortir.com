@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -17,7 +17,7 @@
             {% endblock %}
         {% endblock %}
     </head>
-    <body class="">
+    <body class="noscroll">
     <header class="is-flex is-justify-content-space-evenly is-align-items-center">
         <div>
             <img class="m-1 mt-3" src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
@@ -32,4 +32,67 @@
     </header>
         {% block body %}{% endblock %}
     </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Liste de couleurs pour l'ombre portée
+            var shadowColors = ['#ce3be5', '#740aa9', '#f6e9f2',
+                '#3b4fce', '#1b9dcc', '#dc6ff7'];
+
+            // Sélectionne l'élément header
+            var header = document.querySelector('header');
+            var custom = document.querySelector('.custom-form');
+
+            // Définit une fonction pour changer la couleur de l'ombre portée
+            function changeShadowColor() {
+                // Génère un nombre aléatoire pour sélectionner une couleur aléatoire dans la liste
+                var randomIndex = Math.floor(Math.random() * shadowColors.length);
+                header.style.boxShadow = '0px 5px 20px 3px ' + shadowColors[randomIndex];
+                custom.style.boxShadow = '25px 25px 100px 10px' + shadowColors[randomIndex];
+            }
+
+            // Appelle la fonction changeShadowColor toutes les 5 secondes
+            setInterval(changeShadowColor, 2500);
+        });
+    </script>
+
+    {#
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Liste de dégradés radiaux pour l'ombre portée
+            var shadowGradients = [
+                'radial-gradient(circle, #ce3be5, #4d0099)',
+                'radial-gradient(circle, #3bce5f, #008000)',
+                'radial-gradient(circle, #e53b3b, #8b0000)',
+                'radial-gradient(circle, #3b4fce, #00008b)',
+                'radial-gradient(circle, #f7dc6f, #ffd700)',
+                'radial-gradient(circle, #dc6ff7, #993399)'
+            ];
+
+            // Sélectionne l'élément header
+            var header = document.querySelector('header');
+            var custom = document.querySelector('.custom-form');
+
+            // Définit une fonction pour changer le dégradé radial de l'élément
+            function changeGradient(element, gradient) {
+                // Applique le dégradé radial à la propriété background de l'élément
+                element.style.background = gradient;
+            }
+
+            // Définit une fonction pour changer la couleur de l'ombre portée radiale
+            function changeShadowGradient() {
+                // Génère un nombre aléatoire pour sélectionner un dégradé radial aléatoire dans la liste
+                var randomIndex = Math.floor(Math.random() * shadowGradients.length);
+
+                // Applique le dégradé radial aléatoire à l'en-tête et à l'élément avec la classe custom-form
+                changeGradient(header, shadowGradients[randomIndex]);
+                changeGradient(custom, shadowGradients[randomIndex]);
+            }
+
+            // Appelle la fonction changeShadowGradient toutes les 5 secondes
+            setInterval(changeShadowGradient, 500);
+        });
+    </script>
+    #}
 </html>

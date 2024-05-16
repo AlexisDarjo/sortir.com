@@ -26,8 +26,6 @@ body{
     overflow-y: auto;
 }
 
-
-
 /* Largeur de la barre de défilement */
 ::-webkit-scrollbar {
     width: 10px;

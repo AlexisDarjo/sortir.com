@@ -17,24 +17,20 @@
             {% endblock %}
         {% endblock %}
     </head>
-    <body class="noscroll">
-    <header class="is-flex is-justify-content-space-evenly is-align-items-center">
-        <div>
-            <img class="m-1 mt-3" src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
-        </div>
-        {% if app.user is not empty %}
+    <body class="bodybase">
+        <header class="is-flex is-justify-content-space-evenly is-align-items-center">
             <div>
-                Bonjour {{ app.user.prenom }} <br/>
-                Date du jour : {{ 'now'|date('d F Y') }}
+                <img class="m-1 mt-3" src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
             </div>
-        {% endif %}
-        {% include 'nav.html.twig' %}
-    </header>
-        {% block body %}{% endblock %}
-    <footer>
-        {% block footer %} "©Sortir.com"{{ "now"|date("Y") }}
-        {% endblock %}
-    </footer>
+            {% if app.user is not empty %}
+                <div>
+                    Bonjour {{ app.user.prenom }} <br/>
+                    Date du jour : {{ 'now'|date('d F Y') }}
+                </div>
+            {% endif %}
+            {% include 'nav.html.twig' %}
+        </header>
+            {% block body %}{% endblock %}
     </body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

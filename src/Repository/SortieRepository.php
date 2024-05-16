@@ -84,11 +84,11 @@ class SortieRepository extends ServiceEntityRepository
     public function findAllNonArchivee()
     {
         $entityManager = $this->getEntityManager();
-        $etatArchive = $entityManager->getRepository(Etat::class)->find(7); // 7 correspond à l'état "Archivée"
+        $etatArchive = $entityManager->getRepository(Etat::class)->find(7);
 
-        $now = new \DateTime(); // Récupère la date et l'heure actuelles
+        $now = new \DateTime();
         $oneMonthAgo = clone $now;
-        $oneMonthAgo->modify('-1 month'); // Soustrait 1 mois à la date actuelle
+        $oneMonthAgo->modify('-1 month');
 
         $sorties = $this->findAll();
 

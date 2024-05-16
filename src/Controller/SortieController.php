@@ -254,7 +254,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{idSortie}/participants', name: 'app_sortie_showParticipantsBySortie', methods: ['GET', 'POST'])]
-    public function showBySortie(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository, InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
+    public function showBySortie(Request $request, SortieRepository $sortieRepository, ParticipantRepository $participantRepository,InscriptionRepository $inscriptionRepository, EntityManagerInterface $entityManager): Response
     {
         $idSortie = $request->attributes->get('idSortie');
         $inscriptions = $inscriptionRepository->findBy(['idSortie' => $idSortie]);

@@ -22,9 +22,15 @@ body{
 
 
 .scrollable-table {
-    max-height: 300px; /* Ajustez la hauteur maximale selon vos besoins */
+    max-height: 300px;
     overflow-y: auto;
 }
+
+.scrollable-table-inscription {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
 
 /* Largeur de la barre de défilement */
 ::-webkit-scrollbar {

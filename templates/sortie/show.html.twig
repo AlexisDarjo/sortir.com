@@ -7,16 +7,16 @@
 {% endblock %}
 
 {% block body %}
-<section class="hero is-fullheight">
+<section class="hero">
     <div class="mt-6 mb-1">
-        <div class="container">
+        <div class="container ">
             <div class="is-centered is-flex is-justify-content-center">
                 <div class="column is-5-tablet is-4-desktop is-6-widescreen">
-                    <div  class="box custom-form">
+                    <div  class="box custom-form ">
 
                         <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">
                                 {{sortie.nom}}</h1>
-                        <table class="table custom-table is-flex is-justify-content-center">
+                        <table class="table custom-table is-flex is-justify-content-center scrollable-table">
                             <tbody>
 
 
@@ -83,6 +83,11 @@
                             <button class="m-1" onclick="window.location='{{ path('app_sortie_edit', {'id': sortie.id}) }}'">
                                 <span>Modifier</span>
                             </button>
+                            {% if sortie.getEtat.id ==1 and app.user.id == sortie.getOrganisateur.id %}
+                                <button onclick="window.location='{{ path('app_sortie_publish', {'id': sortie.id}) }}'">
+                                    <span>Publier la sortie</span>
+                                </button>
+                            {% endif %}
 
                             {{ include('sortie/_delete_form.html.twig') }}
 

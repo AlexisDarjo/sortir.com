@@ -1,11 +1,11 @@
 body{
     height: 100% !important;
 }
-.noscroll{
-    overflow-y: hidden; /* Pour masquer la barre de défilement verticale */
 
-}
-
+/*.noscroll{
+/*    overflow-y: hidden; /* Pour masquer la barre de défilement verticale */
+/*}
+*/
 
 @font-face {
     font-family: 'indieFlower';
@@ -20,3 +20,27 @@ body{
     font-family: duduCaligraphy, sans-serif;
 }
 
+
+.scrollable-table {
+    max-height: 300px; /* Ajustez la hauteur maximale selon vos besoins */
+    overflow-y: auto;
+}
+
+
+
+/* Largeur de la barre de défilement */
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Couleur de fond de la barre de défilement */
+::-webkit-scrollbar-track {
+    background: rgba(47, 8, 114, 0.51);
+}
+/* Couleur de la poignée de la barre de défilement */
+::-webkit-scrollbar-thumb {
+    background: rgba(248, 2, 255, 0.6);
+}
+/* Ombre de la poignée de la barre de défilement */
+::-webkit-scrollbar-thumb:hover {
+    background: #ff00fd;
+}

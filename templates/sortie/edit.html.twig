@@ -49,15 +49,15 @@
     {{ form_errors(form) }}
     {{ form_row(form._token) }}
 
-    <section class="hero is-fullheight">
+    <section class="hero">
         <div class="mt-6 mb-1">
             <div class="container">
-                <div class="is-centered is-flex is-justify-content-center">
-                    <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                <div class="is-centered is-flex is-justify-content-center ">
+                    <div class="column is-5-tablet is-4-desktop is-6-widescreen ">
                         <div  class="box custom-form">
                             <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">Modifier une sortie</h1>
-                            <div class="columns">
-                                <div class="column">
+                            <div class="columns scrollable-table">
+                                <div class="column ">
                                     <div class="field">
                                         <div class="control has-icons-left">
                                             {{ form_row(form.nom) }}
@@ -119,7 +119,9 @@
                                 <button class="m-1" type="submit">
                                     <span>Enregistrer</span>
                                 </button>
-
+                                <button onclick="window.location='{{ path('app_sortie_publish', {'id': sortie.id}) }}'">
+                                    <span>Créer une sortie</span>
+                                </button>
                             </div>
 
                         </div>

@@ -23,13 +23,17 @@ class FilterFormType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,// La case à cocher n'est pas obligatoire
                 'mapped' => false, // Ne lie pas ce champ à une propriété de l'entité
+                'attr' => [
+                    'class' => 'input custom-input',
 
-            ])
+            ]])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'widget' => 'single_text',
                 'required' => false,
                 'mapped' => false,
-            ])
+                'attr' => [
+                    'class' => 'input custom-input',
+            ]])
             ->add('etatPassee', CheckboxType::class, [
                 'required' => false,
                 'mapped' => false,

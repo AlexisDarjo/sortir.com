@@ -31,12 +31,17 @@
         {% include 'nav.html.twig' %}
     </header>
         {% block body %}{% endblock %}
+    <footer>
+        {% block footer %} "©Sortir.com"{{ "now"|date("Y") }}
+        {% endblock %}
+    </footer>
     </body>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Liste de couleurs pour l'ombre portée
-            var shadowColors = ['#ce3be5', '#740aa9', '#f6e9f2',
+            var shadowColors = ['#ce3be5', '#740aa9', '#ea9b2f',
                 '#3b4fce', '#1b9dcc', '#dc6ff7'];
 
             // Sélectionne l'élément header

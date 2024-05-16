@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Entity\Ville;
 use App\Form\LieuType;
+use App\Form\VilleType;
 use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ class LieuController extends AbstractController
     public function index(LieuRepository $lieuRepository): Response
     {
         return $this->render('lieu/index.html.twig', [
-            'lieus' => $lieuRepository->findAll(),
+            'lieux' => $lieuRepository->findAll(),
         ]);
     }
 
@@ -27,24 +28,24 @@ class LieuController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
-        $ville = new Ville();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ville);
-            $lieu->setVille($ville);
-            $entityManager->persist($lieu);
+            $ville = $lieu->getVille();
+            $entityManager->persist($ville); // Persist the Ville entity first
+            $entityManager->persist($lieu); // Then persist the Lieu entity
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lieu_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_sortie_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lieu/new.html.twig', [
             'lieu' => $lieu,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/{id}', name: 'app_lieu_show', methods: ['GET'])]
     public function show(Lieu $lieu): Response

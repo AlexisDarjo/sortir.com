@@ -30,7 +30,9 @@
         {% endif %}
         {% include 'nav.html.twig' %}
     </header>
+
         {% block body %}{% endblock %}
+
     <footer>
         {% block footer %} "©Sortir.com"{{ "now"|date("Y") }}
         {% endblock %}

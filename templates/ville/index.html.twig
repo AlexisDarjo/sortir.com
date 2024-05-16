@@ -3,35 +3,46 @@
 {% block title %}Ville index{% endblock %}
 
 {% block body %}
-    <h1>Ville index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>CodePostal</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ville in villes %}
-            <tr>
-                <td>{{ ville.id }}</td>
-                <td>{{ ville.nom }}</td>
-                <td>{{ ville.codePostal }}</td>
-                <td>
-                    <a href="{{ path('app_ville_show', {'id': ville.id}) }}">show</a>
-                    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <section class="hero is-fullheight">
+        <div class="mt-6 mb-1">
+            <div class="container">
+                <div class="is-centred is-flex is-justify-content-center">
+                    <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                        <div class="box custom-form">
+                            <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">Villes</h1>
+                            <table class="table custom-table mt-4 is-narrow is-fullwidth">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nom</th>
+                                    <th>CodePostal</th>
+                                    <th>actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ville in villes %}
+                                    <tr>
+                                        <td>{{ ville.id }}</td>
+                                        <td>{{ ville.nom }}</td>
+                                        <td>{{ ville.codePostal }}</td>
+                                        <td>
+                                            <a href="{{ path('app_ville_show', {'id': ville.id}) }}">show</a>
+                                            <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">edit</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Aucune ville trouvée</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <a href="{{ path('app_ville_new') }}">Create new</a>
 {% endblock %}

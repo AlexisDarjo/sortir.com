@@ -3,7 +3,7 @@
 
     <div class="m-1">
        {% if is_granted('ROLE_ADMIN') %}
-            <button>
+            <button onclick="window.location='{{ path('app_ville_index') }}'">
                 <span>Villes</span>
             </button>
             <button>

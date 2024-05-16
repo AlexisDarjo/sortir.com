@@ -3,7 +3,7 @@
 {% block title %}Ville index{% endblock %}
 
 {% block body %}
-    <section class="hero is-fullheight">
+    <section class="hero">
         <div class="mt-6 mb-1">
             <div class="container">
                 <div class="is-centred is-flex is-justify-content-center">
@@ -37,6 +37,15 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
+                            <div class="is-flex is-justify-content-center">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_ville_new') }}">
+                                        <button>
+                                            <span>Créer une ville</span>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,5 +53,4 @@
         </div>
     </section>
 
-    <a href="{{ path('app_ville_new') }}">Create new</a>
 {% endblock %}

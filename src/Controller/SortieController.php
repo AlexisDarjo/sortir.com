@@ -239,9 +239,28 @@ class SortieController extends AbstractController
         $sortie->setRaisonAnnulation($reason);
         $etat = $entityManager->getRepository(Etat::class)->find(6);
         $sortie->setEtat($etat);
+        $entityManager->persist($sortie);
         $this->entityManager->flush();
 
         $this->addFlash('success', 'La sortie a été annulée avec succès.');
+        return $this->redirectToRoute('app_sortie_index');
+    }
+
+    #[Route('/publication/{id}', name: 'app_sortie_publish')]
+    #[IsGranted('ROLE_ORGANISATEUR')]
+    public function publish($id, EntityManagerInterface $entityManager,Request $request): Response
+    {
+        $sortie = $this->entityManager->getRepository(Sortie::class)->find($id);
+        if (!$sortie) {
+            throw $this->createNotFoundException('La sortie avec l\'ID '.$id.' n\'existe pas.');
+        }
+
+        $etat = $entityManager->getRepository(Etat::class)->find(2);
+        $sortie->setEtat($etat);
+        $entityManager->persist($sortie);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a été publiée avec succès.');
         return $this->redirectToRoute('app_sortie_index');
     }
 

@@ -22,6 +22,7 @@
             <div>
                 <img class="m-1 mt-3" src ="{{ asset('img/logoAlexis.png') }}"  alt ="Logo" width = "351" height="175">
             </div>
+
             {% if app.user is not empty %}
                 <div>
                     Bonjour {{ app.user.prenom }} <br/>
@@ -31,6 +32,7 @@
             {% include 'nav.html.twig' %}
         </header>
             {% block body %}{% endblock %}
+
     </body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

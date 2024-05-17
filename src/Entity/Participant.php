@@ -66,6 +66,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'organisateur')]
     private Collection $sortiesOrganisees;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poster = null;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -288,6 +291,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $sortiesOrganisee->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): static
+    {
+        $this->poster = $poster;
 
         return $this;
     }

@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Helper\FileUploader;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -63,12 +66,18 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_participant_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Participant $participant, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('poster_file')->getData() instanceof UploadedFile) {
+                $posterFile = $form->get('poster_file')->getData();
+                $name = $fileUploader->upload($posterFile, $participant->getPseudo(), 'posters/profils');
+
+                $participant->setPoster($name);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('app_participant_show', ['id' => $participant->getId()], Response::HTTP_SEE_OTHER);

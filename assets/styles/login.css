@@ -57,4 +57,32 @@ header{
     stroke-dashoffset: 0;
     opacity: 1;
 }
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.profile-image {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 5px solid #333; /* Choisissez la couleur de votre cadre */
+    object-fit: cover;
+}
+.profile-image2 {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 5px solid rosybrown; /* Choisissez la couleur de votre cadre */
+    object-fit: cover;
+}
+
+.custom-form {
+    margin-right: 2rem; /* Espacement entre le formulaire et l'image */
+}
+
+.columns.is-centered.is-vcentered {
+    display: flex;
+    align-items: center;
+}

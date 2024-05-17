@@ -12,45 +12,49 @@
     <section class="hero">
         <div class="mt-6 mb-1">
             <div class="container">
-                <div class="is-centered is-flex is-justify-content-center">
-                    <div class="column is-5-tablet is-4-desktop is-6-widescreen">
-                        <div class="box custom-form">
-                            <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">{{ participant.pseudo }}</h1>
-
-                            <table class="table custom-table is-flex is-justify-content-center">
-                                <tbody>
-                                <tr>
-                                    <th>Nom</th>
-                                    <td>{{ participant.nom }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Prenom</th>
-                                    <td>{{ participant.prenom }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Telephone</th>
-                                    <td>{{ participant.telephone }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Mail</th>
-                                    <td>{{ participant.mail }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Site de rattachement</th>
-                                    <td>{{ participant.site.nom is not empty ? participant.site.nom : 'aucun' }}</td>
-                                </tr>
-                                {% if participant.administrateur == true %}
+                <div class="columns is-centered is-vcentered">
+                        <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                            <div class="box custom-form">
+                                <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">{{ participant.pseudo }}</h1>
+                                <table class="table custom-table is-flex is-justify-content-center">
+                                    <tbody>
                                     <tr>
-                                        <th>Administrateur</th>
-                                        <td>{{ participant.administrateur ? 'Oui' : 'Non' }}</td>
+                                        <th>Nom</th>
+                                        <td>{{ participant.nom }}</td>
                                     </tr>
-                                {% endif %}
-
-
-                                </tbody>
-                            </table>
+                                    <tr>
+                                        <th>Prenom</th>
+                                        <td>{{ participant.prenom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Telephone</th>
+                                        <td>{{ participant.telephone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mail</th>
+                                        <td>{{ participant.mail }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Site de rattachement</th>
+                                        <td>{{ participant.site.nom is not empty ? participant.site.nom : 'aucun' }}</td>
+                                    </tr>
+                                    {% if participant.administrateur == true %}
+                                        <tr>
+                                            <th>Administrateur</th>
+                                            <td>{{ participant.administrateur ? 'Oui' : 'Non' }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    {% if participant.poster is not empty %}
+                        <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                            <div class="profile-image-container">
+                                <img src="{{ asset('posters/profils/' ~ participant.poster) }}" class="profile-image">
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

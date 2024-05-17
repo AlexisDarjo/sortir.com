@@ -24,9 +24,11 @@
             </div>
 
             {% if app.user is not empty %}
+            {% if app.user.poster is not empty %}
                 <div>
                     <img class="profile-image2" src="{{asset('posters/profils/' ~ app.user.poster )}}" width="50px" loading="lazy">
                 </div>
+                {% endif %}
                 <div>
                     Bonjour {{ app.user.prenom }} <br/>
                     Date du jour : {{ 'now'|date('d-m-Y') }}

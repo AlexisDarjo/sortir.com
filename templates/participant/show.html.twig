@@ -1,24 +1,21 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Mon profil{% endblock %}
-        {% block stylesheets %}
-            <link rel="stylesheet" href="/assets/styles/profil.css">
-        {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/styles/profil.css">
+{% endblock %}
+
 {% block body %}
-
-<section class="hero">
-    <div class="mt-6 mb-1">
-        <div class="container">
-            <div class="is-centered is-flex is-justify-content-center">
-                <div class="column is-5-tablet is-4-desktop is-6-widescreen">
-                    <div  class="box custom-form">
-
-                        <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">Mon profil</h1>
-
-                        <table class="table custom-table is-flex is-justify-content-center">
-                            <tbody>
-
+    <section class="hero">
+        <div class="mt-6 mb-1">
+            <div class="container">
+                <div class="columns is-centered is-vcentered">
+                    <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                        <div class="box custom-form">
+                            <h1 class="title is-3 mb-3 font-weight has-text-white is-flex is-justify-content-center">Mon profil</h1>
+                            <table class="table custom-table is-flex is-justify-content-center">
+                                <tbody>
                                 <tr>
                                     <th>Nom</th>
                                     <td>{{ participant.nom }}</td>
@@ -51,22 +48,24 @@
                                     <th>Actif</th>
                                     <td>{{ participant.actif ? 'Oui' : 'Non' }}</td>
                                 </tr>
-
-                            </tbody>
-                        </table>
-
-
-                        <div class="field is-flex is-justify-content-center is-align-items-center">
-                            <button onclick="window.location='{{ path('app_participant_edit', {'id': participant.id}) }}'">
-                                <span>Modifier</span>
-                            </button>
+                                </tbody>
+                            </table>
+                            <div class="field is-flex is-justify-content-center is-align-items-center">
+                                <button onclick="window.location='{{ path('app_participant_edit', {'id': participant.id}) }}'">
+                                    <span>Modifier</span>
+                                </button>
+                            </div>
                         </div>
-
                     </div>
+                    {% if participant.poster is not empty %}
+                    <div class="column is-5-tablet is-4-desktop is-6-widescreen">
+                        <div class="profile-image-container">
+                            <img src="{{ asset('posters/profils/' ~ app.user.poster) }}" class="profile-image" alt="Profile Image">
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-
-    </div>
-</section>
+    </section>
 {% endblock %}

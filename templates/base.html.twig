@@ -25,8 +25,11 @@
 
             {% if app.user is not empty %}
                 <div>
+                    <img class="profile-image2" src="{{asset('posters/profils/' ~ app.user.poster )}}" width="50px" loading="lazy">
+                </div>
+                <div>
                     Bonjour {{ app.user.prenom }} <br/>
-                    Date du jour : {{ 'now'|date('d F Y') }}
+                    Date du jour : {{ 'now'|date('d-m-Y') }}
                 </div>
             {% endif %}
             {% include 'nav.html.twig' %}

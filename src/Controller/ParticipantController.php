@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,8 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/{id}/profil', name: 'app_participant_showPublic', methods: ['GET'])]
-    public function showPublic(Participant $participant): Response
+    public function showPublic(Participant $participant, SortieRepository $sortieRepository): Response
+
     {
         return $this->render('participant/showPublic.html.twig', [
             'participant' => $participant,
